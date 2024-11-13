@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_tutorial/home_page.dart';
+import 'package:riverpod_tutorial/user.dart';
 
-final nameProvider = StateProvider<String?>((ref) => 'John');
+final nameProvider = StateProvider<String?>((ref) => null);
+final userProvider = StateNotifierProvider<UserNotifier, User>(
+  (ref) => UserNotifier(
+    const User(name: '', age: 0),
+  ),
+);
 
 void main() {
   runApp(const ProviderScope(

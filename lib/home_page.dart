@@ -8,11 +8,16 @@ class HomePage extends StatelessWidget {
     ref.read(nameProvider.notifier).update((state) => value);
   }
 
+  void onSubmitUser(WidgetRef ref, String name) {
+    ref.read(userProvider.notifier).updateName(name);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer(
       builder: (context, ref, child) {
         final name = ref.watch(nameProvider) ?? '';
+        final user = ref.watch(userProvider);
         return Scaffold(
           body: Center(
             child: Column(
@@ -21,7 +26,16 @@ class HomePage extends StatelessWidget {
                   onSubmitted: (value) => onSubmit(ref, value),
                 ),
                 Text(
-                  name,
+                  '\n STATE PROVIDER SECTION \n $name',
+                ),
+                TextField(
+                  onSubmitted: (value) => onSubmitUser(ref, value),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  'THE STATE NOTIFIER \n ${user.name}.',
                 ),
               ],
             ),
