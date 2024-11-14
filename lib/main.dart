@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_tutorial/home_page.dart';
+import 'package:riverpod_tutorial/posts.dart';
 import 'package:riverpod_tutorial/user.dart';
+import 'package:http/http.dart' as http;
 
 final nameProvider = StateProvider<String?>((ref) => null);
 final userProvider = StateNotifierProvider<UserNotifier, User>(
@@ -9,6 +13,14 @@ final userProvider = StateNotifierProvider<UserNotifier, User>(
     const User(name: '', age: 0),
   ),
 );
+
+final userChangeProvider =
+    ChangeNotifierProvider((ref) => UserChangeNotifier());
+
+final fetchPostProvider = FutureProvider((ref) {
+  const url = 'https://jsonplaceholder.typicode.com/posts/1';
+  return http.get(Uri.parse(url)).then((value) => Post.fromJson(value.body));
+});
 
 void main() {
   runApp(const ProviderScope(
